@@ -1,0 +1,38 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.nicegpt.ChatAnnotator</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>ChatAnnotator</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="wishtodaya@gmail.com" url="https://www.yourcompany.com">niceGPT</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    使用chatGPT为你的代码添加完整注释，优化代码<br>
+    <em>欢迎来到新世界，AI必将取代人类</em>
+  ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <actions>
+        <group id="MyPlugin.SampleMenu" text="ChatGPT Code Annotator" description="Annotate code with ChatGPT">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <action id="MyPlugin.AnnotateCode" class="com.nicegpt.chatannotator.AnnotateCodeAction"
+                    text="Annotate Code" description="Annotate code with ChatGPT" icon="/META-INF/pluginIcon.svg"/>
+        </group>
+    </actions>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+
+    </extensions>
+</idea-plugin>
