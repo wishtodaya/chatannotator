@@ -7,20 +7,31 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class ChatGPTApi{
 
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "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";
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
 
     public static String requestChatGpt(String prompt) throws Exception {
+
+        // 设置代理服务器地址和端口
+        String proxyHost = "127.0.0.1"; // 您的 Clash 代理服务器地址
+        int proxyPort = 7890;           // 您的 Clash 代理服务器端口
+
+        // 创建代理对象
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
+
         // 创建 URL 对象
         URL url = new URL(API_URL);
 
+
         // 打开连接并设置请求方式为 POST
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection(proxy);
         connection.setRequestMethod("POST");
 
         // 设置请求头
@@ -55,13 +66,14 @@ public class ChatGPTApi{
                 response.append(responseLine.trim());
             }
             JSONObject jsonResponse = new JSONObject(response.toString());
-            return jsonResponse.getJSONObject("choices").getJSONArray("text").getString(0);
+            String content = jsonResponse.getJSONArray("choices").getJSONObject(0).getJSONObject("message").getString("content");
+            return content;
         }
     }
 
     public static void main(String[] args) {
         try {
-            String prompt = "What is the capital of France?";
+            String prompt = "为这段代码添加中文注释,不对代码进行改变,只允许添加注释,并且注释格式以chatGPT开头:print(\"hello world\")";
             String response = requestChatGpt(prompt);
             System.out.println("ChatGPT response: " + response);
         } catch (Exception e) {
